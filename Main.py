@@ -27,13 +27,7 @@ def main():
 
 	driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver)
 	driver.get('https://www.nytimes.com/crosswords/game/mini')
-	
-	h1_elem = driver.find_element_by_tag_name('h1')
-	print(h1_elem.text)
-
-	elem = driver.find_element_by_name('q')
-	elem.clear()
-	elem.send_keys("python")
+	elem = driver.find_element_by_tag_name('body')
 	elem.send_keys(Keys.RETURN)
 
 	driver.get_screenshot_as_file('minicrossword.png')
