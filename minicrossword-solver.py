@@ -9,7 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-def CrosswordAI(Object):
+class CrosswordAI:
 	def __init__(self):
 		chrome_options = Options()
 		chrome_options.add_argument("--headless")
@@ -32,13 +32,26 @@ def CrosswordAI(Object):
 		elem = self.driver.find_element_by_tag_name('body')
 		elem.send_keys(Keys.RETURN)
 
+	def extract_clues(self):
+		elem = self.driver.find_elements_by_class_name('ClueList-wrapper--3m-kd')
+		for clue in elem:
+			print(clue.text)
+
+
 	def end_game(self):
-		self.driver.get_screenshot_as_file('minicrossword.png')
+		self.driver.get_screenshot_as_file('ai-mini.png')
 		self.driver.close()
 
 
 if __name__ == '__main__' :
+	'''
+	I wanted it to replicate human playing of the game as closely as possible.
+	The clues are viewable in the page source without starting the game, and the words
+	could have been brute forced, but I choose instead to start the game timer before
+	extracting clues and to look up the clues to find possible relevant words.
+	'''
 	ai = CrosswordAI()
 	ai.start_game()
+	ai.extract_clues()
 	ai.end_game()
 
