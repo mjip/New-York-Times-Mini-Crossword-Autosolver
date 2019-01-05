@@ -2,3 +2,4 @@ chromedriver
 *.zip
 *.pyc
 *.png
+*.swp
