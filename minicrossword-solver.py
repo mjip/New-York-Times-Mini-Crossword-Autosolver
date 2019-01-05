@@ -27,6 +27,8 @@ class CrosswordAI:
 		chrome_driver = os.path.join(os.getcwd(), 'chromedriver')
 
 		self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver)
+		self.clues = []
+
 	def start_game(self):
 		self.driver.get('https://www.nytimes.com/crosswords/game/mini')
 		elem = self.driver.find_element_by_tag_name('body')
@@ -35,7 +37,7 @@ class CrosswordAI:
 	def extract_clues(self):
 		elem = self.driver.find_elements_by_class_name('ClueList-wrapper--3m-kd')
 		for clue in elem:
-			print(clue.text)
+			self.clues.append(clue.text.split('\n'))
 
 
 	def end_game(self):
