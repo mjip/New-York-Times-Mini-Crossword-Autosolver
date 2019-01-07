@@ -27,7 +27,8 @@ class CrosswordAI:
 		chrome_driver = os.path.join(os.getcwd(), 'chromedriver')
 
 		self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver)
-		self.clues = []
+		self.across_clues = {}
+		self.down_clues = {}
 
 	def start_game(self):
 		self.driver.get('https://www.nytimes.com/crosswords/game/mini')
@@ -37,7 +38,17 @@ class CrosswordAI:
 	def extract_clues(self):
 		elem = self.driver.find_elements_by_class_name('ClueList-wrapper--3m-kd')
 		for clue in elem:
-			self.clues.append(clue.text.split('\n'))
+			#self.clues.append(clue.text.split('\n'))
+			clue_parts = clue.text.split('\n')
+			if clue_parts[0] == "ACROSS":
+				for i in range(1, len(clue_parts), 2):
+					self.across_clues[int(clue_parts[i])] = clue_parts[i+1]
+			elif clue_parts[0] == "DOWN":
+				for i in range(1, len(clue_parts), 2):
+					self.down_clues[int(clue_parts[i])] = clue_parts[i+1]
+		
+			print(self.across_clues)
+			print(self.down_clues)
 
 
 	def end_game(self):
