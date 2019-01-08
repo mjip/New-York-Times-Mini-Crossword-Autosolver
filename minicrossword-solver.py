@@ -46,9 +46,6 @@ class CrosswordAI:
 			elif clue_parts[0] == "DOWN":
 				for i in range(1, len(clue_parts), 2):
 					self.down_clues[int(clue_parts[i])] = clue_parts[i+1]
-		
-			print(self.across_clues)
-			print(self.down_clues)
 
 
 	def end_game(self):
