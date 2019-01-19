@@ -49,7 +49,7 @@ class CrosswordAI:
 
 
 	def end_game(self):
-		self.driver.get_screenshot_as_file('ai-mini.png')
+		#self.driver.get_screenshot_as_file('ai-mini.png')
 		self.driver.close()
 
 
