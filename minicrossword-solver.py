@@ -47,7 +47,6 @@ class CrosswordAI:
 				for i in range(1, len(clue_parts), 2):
 					self.down_clues[int(clue_parts[i])] = clue_parts[i+1]
 
-
 	def end_game(self):
 		#self.driver.get_screenshot_as_file('ai-mini.png')
 		self.driver.close()
