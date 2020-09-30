@@ -3,3 +3,4 @@ chromedriver
 *.pyc
 *.png
 *.swp
+*.log

@@ -6,29 +6,20 @@ import urllib.request
 import zipfile
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 
 class CrosswordAI:
 	def __init__(self):
-		chrome_options = Options()
-		chrome_options.add_argument("--headless")
-		chrome_options.add_argument("--window-size=1024x1400")
+		options = Options()
+		options.headless = True
+		self.driver = webdriver.Firefox(options=options)
 
-		if not os.path.isfile('chromedriver'):
-			zipresp = urllib.request.urlopen('https://chromedriver.storage.googleapis.com/2.45/chromedriver_linux64.zip')
-			with open('chromedriver_linux64.zip', 'wb') as tempzip:
-				tempzip.write(zipresp.read())
-
-			with zipfile.ZipFile('chromedriver_linux64.zip') as zip_ref:
-				zip_ref.extractall()
-		os.chmod('chromedriver', 0o755)
-	
-		chrome_driver = os.path.join(os.getcwd(), 'chromedriver')
-
-		self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver)
 		self.across_clues = {}
+		self.across_letters = {}
+
 		self.down_clues = {}
+		self.down_letters = {}
 
 	def start_game(self):
 		self.driver.get('https://www.nytimes.com/crosswords/game/mini')
@@ -38,7 +29,6 @@ class CrosswordAI:
 	def extract_clues(self):
 		elem = self.driver.find_elements_by_class_name('ClueList-wrapper--3m-kd')
 		for clue in elem:
-			#self.clues.append(clue.text.split('\n'))
 			clue_parts = clue.text.split('\n')
 			if clue_parts[0] == "ACROSS":
 				for i in range(1, len(clue_parts), 2):
@@ -49,7 +39,9 @@ class CrosswordAI:
 
 	def end_game(self):
 		self.driver.get_screenshot_as_file('ai-mini.png')
+		print(self.across_clues)
 		self.driver.close()
+		print(self.down_clues)
 
 
 if __name__ == '__main__' :
@@ -61,6 +53,15 @@ if __name__ == '__main__' :
 	'''
 	ai = CrosswordAI()
 	ai.start_game()
+
+	''' 
+	You can extract clues by pulling out the elements under the 'ClueList-wrapper--3m-kd' class name
+	'''
 	ai.extract_clues()
+
+	'''
+	Once we have the clues, you can cycle through the clues by hitting tab (typing out the guess is optional)
+	'''
+	ai.
 	ai.end_game()
 
